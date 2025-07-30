@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>リアルタイムURLリンク作成</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    input {
+      width: 300px;
+      padding: 5px;
+    }
+    button {
+      margin-left: 5px;
+      padding: 5px 10px;
+    }
+    #link-container {
+      margin-top: 15px;
+    }
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      color: blue;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>URLを入力してリンクを自動生成</h2>
+  <input type="text" id="url-input" placeholder="https://example.com">
+
+  <div id="link-container"></div>
+
+  <script>
+    const input = document.getElementById('url-input');
+    const container = document.getElementById('link-container');
+
+    function sanitizeURL(url) {
+      // スキームがない場合は http:// を付ける
+      if (!/^https?:\/\//i.test(url)) {
+        return 'http://' + url;
+      }
+      return url;
+    }
+
+    function updateLink() {
+      const rawInput = input.value.trim();
+      container.innerHTML = ''; // 毎回クリア
+
+      if (!rawInput) return;
+
+      const url = sanitizeURL(rawInput);
+      const a = document.createElement('a');
+      a.href = url;
+      a.textContent = url;
+      container.appendChild(a);
+    }
+
+    input.addEventListener('input', updateLink);
+  </script>
+
+</body>
+</html>
